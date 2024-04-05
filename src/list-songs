@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -eu
+
+source src/utils
+
+MUSIC_DIR=/home/dbf/Music
+
+pattern_song="$(parse_pattern "$1")"
+pattern_other="$(parse_pattern "${2:-""}")"
+
+fdfind \
+    --type f \
+    --ignore-case \
+    --regex \
+    "$pattern_song" \
+    "$MUSIC_DIR" \
+| grep --ignore-case "$pattern_other"
