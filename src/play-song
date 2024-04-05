@@ -2,11 +2,9 @@
 
 set -eu
 
-music_dir=/home/dbf/Music
+source src/utils
 
-parse_pattern() {
-  echo $(sed 's/ /[\\s_-]/g' <<< "$1")
-}
+MUSIC_DIR=/home/dbf/Music
 
 pattern_song="$(parse_pattern "$1")"
 pattern_other="$(parse_pattern "${2:-""}")"
@@ -16,6 +14,6 @@ fdfind \
   --ignore-case \
   --regex \
   "$pattern_song" \
-  "$music_dir" \
+  "$MUSIC_DIR" \
   | grep --ignore-case "$pattern_other" \
   | xargs --open-tty -d "\n" mplayer
