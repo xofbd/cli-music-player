@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -eu
+
+MUSIC_DIR=/home/dbf/Music
+
+find_album_dirs() {
+  pattern_album=$(parse_pattern "$1")
+  pattern_other=$(parse_pattern "$2")
+
+  echo "$(fdfind --type d --ignore-case --regex "$pattern_album" "$MUSIC_DIR" | grep -i "$pattern_other")"
+}
+
+parse_pattern() {
+  echo $(sed 's/ /[\\s_-]/g' <<< "$1")
+}
+
+play() {
+  if [[ "$(find "$1" -maxdepth 1 -name "*.m3u" -print -quit)" ]]; then
+    play_playlist "$1"
+  else
+    play_all_files "$1"
+  fi
+}
+
+play_playlist() {
+  fdfind --type f --glob "*m3u" "$1" | xargs --open-tty -d "\n" mplayer -playlist
+}
+
+play_all_files() {
+  mplayer "$1"*
+}
+
+main() {
+  album_dirs="$(find_album_dirs "$1" "${2:-""}")"
+
+  if [[ -z "$album_dirs" ]]; then
+    echo "No albums found with search term "$1" "$2""
+    exit 1
+  fi
+
+  echo -e "Found $(wc -l <<< "$album_dirs") album(s):\n$album_dirs\n"
+
+  IFS=$'\n'
+  for dir_ in $album_dirs; do
+    play "$dir_"
+  done
+}
+
+
+main "$@"
+
