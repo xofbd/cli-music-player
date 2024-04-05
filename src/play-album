@@ -30,10 +30,13 @@ play_all_files() {
 }
 
 main() {
-  album_dirs="$(find_album_dirs "$1" "${2:-""}")"
+  arg_1="$1"
+  arg_2="${2:-""}"
+
+  album_dirs="$(find_album_dirs "$arg_1" "$arg_2")"
 
   if [[ -z "$album_dirs" ]]; then
-    echo "No albums found with search term "$1" "$2""
+    echo "No albums found with search term "$arg_1" "$arg_2""
     exit 1
   fi
 
