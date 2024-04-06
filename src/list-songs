@@ -4,5 +4,5 @@ set -euo pipefail
 
 source src/utils
 
-MUSIC_DIR=/home/dbf/Music
+MUSIC_DIR="$HOME"/Music
 find_songs "$@" || message_error "songs"

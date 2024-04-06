@@ -4,5 +4,5 @@ set -euo pipefail
 
 source src/utils
 
-MUSIC_DIR=/home/dbf/Music
+MUSIC_DIR="$HOME"/Music
 find_songs "$@" | xargs --no-run-if-empty --open-tty -d "\n" mplayer || message_empty "songs"
