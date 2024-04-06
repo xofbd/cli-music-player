@@ -1,5 +1,8 @@
 #!/bin/bash
 
-set -eu
+set -euo pipefail
 
-src/list-songs "$@" | xargs --open-tty -d "\n" mplayer
+source src/utils
+
+MUSIC_DIR=/home/dbf/Music
+find_songs "$@" | xargs --no-run-if-empty --open-tty -d "\n" mplayer || message_empty "songs"

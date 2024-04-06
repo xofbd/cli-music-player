@@ -3,3 +3,16 @@
 parse_pattern() {
   echo $(sed 's/ /[\\s_-]/g' <<< "$1")
 }
+
+find_songs() {
+  arg1="$1"
+  arg2="${2:-""}"
+  pattern_song="$(parse_pattern "$arg1")"
+  pattern_other="$(parse_pattern "$arg2")"
+
+  fdfind --type f --ignore-case --regex "$pattern_song" "$MUSIC_DIR" | grep --ignore-case "$pattern_other"
+}
+
+message_empty() {
+  echo "No $1 found with pattern"
+}
