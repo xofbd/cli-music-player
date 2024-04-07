@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -euo pipefail
+
+source src/utils
+
+MUSIC_DIR="$HOME"/Music
+find_albums "$@" || message_empty "albums"

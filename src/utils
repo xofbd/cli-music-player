@@ -5,12 +5,17 @@ parse_pattern() {
 }
 
 find_songs() {
-  arg1="$1"
-  arg2="${2:-""}"
-  pattern_song="$(parse_pattern "$arg1")"
-  pattern_other="$(parse_pattern "$arg2")"
+  pattern_song="$(parse_pattern "$1")"
+  pattern_other="$(parse_pattern "${2:-""}")"
 
   fdfind --type f --ignore-case --regex "$pattern_song" "$MUSIC_DIR" | grep --ignore-case "$pattern_other"
+}
+
+find_albums() {
+  pattern_album=$(parse_pattern "$1")
+  pattern_other=$(parse_pattern "${2:-""}")
+
+  fdfind --type d --ignore-case --regex "$pattern_album" "$MUSIC_DIR" | grep --ignore-case "$pattern_other"
 }
 
 message_empty() {

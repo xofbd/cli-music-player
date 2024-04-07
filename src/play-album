@@ -1,17 +1,10 @@
 #!/bin/bash
 
-set -eu
+set -euo pipefail
 
 source src/utils
 
-MUSIC_DIR=/home/dbf/Music
-
-find_album_dirs() {
-  pattern_album=$(parse_pattern "$1")
-  pattern_other=$(parse_pattern "$2")
-
-  echo "$(fdfind --type d --ignore-case --regex "$pattern_album" "$MUSIC_DIR" | grep -i "$pattern_other")"
-}
+MUSIC_DIR="$HOME"/Music
 
 play() {
   if [[ "$(find "$1" -maxdepth 1 -name "*.m3u" -print -quit)" ]]; then
@@ -30,16 +23,8 @@ play_all_files() {
 }
 
 main() {
-  arg_1="$1"
-  arg_2="${2:-""}"
-
-  album_dirs="$(find_album_dirs "$arg_1" "$arg_2")"
-
-  if [[ -z "$album_dirs" ]]; then
-    echo "No albums found with search term "$arg_1" "$arg_2""
-    exit 1
-  fi
-
+  find_albums "$@" > /dev/null || (message_empty "albums" && exit 0)
+  album_dirs="$(find_albums "$@")"
   echo -e "Found $(wc -l <<< "$album_dirs") album(s):\n$album_dirs\n"
 
   IFS=$'\n'
@@ -50,4 +35,3 @@ main() {
 
 
 main "$@"
-
