@@ -2,7 +2,9 @@
 
 set -euo pipefail
 
-source src/utils
+source src/utils.sh
+source src/arg-parse.sh
 
-MUSIC_DIR="$HOME"/Music
-find_songs "$@" | xargs --no-run-if-empty --open-tty -d "\n" mplayer || message_empty "songs"
+echo "$_arg_directory"
+echo ${_arg_pattern[*]}
+find_songs ${_arg_pattern[*]} "$_arg_directory" | xargs --no-run-if-empty --open-tty -d "\n" mplayer || message_empty "songs"

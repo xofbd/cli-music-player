@@ -2,9 +2,8 @@
 
 set -euo pipefail
 
-source src/utils
-
-MUSIC_DIR="$HOME"/Music
+source src/utils.sh
+source src/arg-parse.sh
 
 play() {
   if [[ "$(find "$1" -maxdepth 1 -name "*.m3u" -print -quit)" ]]; then
@@ -34,4 +33,4 @@ main() {
 }
 
 
-main "$@"
+main ${_arg_pattern[*]} "$_arg_directory"

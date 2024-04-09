@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-source src/utils
+source src/utils.sh
+source src/arg-parse.sh
 
-MUSIC_DIR="$HOME"/Music
-find_songs "$@" || message_error "songs"
+find_songs ${_arg_pattern[*]} "$_arg_directory" || message_empty "songs"
