@@ -1,5 +1,3 @@
-#!/bin/bash
-
 parse_pattern() {
   echo $(sed 's/ /[\\s_-]/g' <<< "$1")
 }
