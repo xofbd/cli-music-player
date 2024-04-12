@@ -1,10 +1,16 @@
 SHELL := /bin/bash
-outputs := list-albums list-songs play-album play-song
+BUILD_DIR := build
+
+sources := $(filter-out %.sh _%, $(notdir $(wildcard src/*)))
+outputs := $(addprefix $(BUILD_DIR)/, $(sources))
 
 .PHONY: all
 all: clean $(outputs)
 
-%: src/%
+$(BUILD_DIR):
+	mkdir -p $@
+
+$(BUILD_DIR)/%: src/% | $(BUILD_DIR)
 	bin/compile $^ > $@
 	chmod u+x $@
 
@@ -14,4 +20,4 @@ install: $(outputs)
 
 .PHONY: clean
 clean:
-	rm -f $(outputs) 
+	rm -rf $(BUILD_DIR)
