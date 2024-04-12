@@ -21,7 +21,7 @@ There are four scripts that pretty much do what you expect:
 Use `-h` or `--help` for usage info.
 
 ## Install
-To create a standalone scripts, run `make all`
+To create a standalone scripts, run `make all`. You can then move the created scripts to some place in your `$PATH`. You can run `make install` which will copy the generated scripts into `$HOME/bin`.
 
 ## License
 This project is distributed under the GPL license. Please see `COPYING` for more information.

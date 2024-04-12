@@ -8,6 +8,10 @@ all: clean $(outputs)
 	bin/compile $^ > $@
 	chmod u+x $@
 
+.PHONY: install
+install: $(outputs)
+	cp $(outputs) $(HOME)/bin
+
 .PHONY: clean
 clean:
 	rm -f $(outputs) 
