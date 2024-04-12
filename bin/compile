@@ -1,0 +1,14 @@
+#!/bin/bash
+# This script "compiles" a given script by embedding all of its sourced
+# dependencies directly in the file. This makes it possible to distribute
+# the script as a single file. The code was adapted from:
+# https://stackoverflow.com/questions/62097366/how-to-merge-sourced-bash-scripts-to-single-bash-script
+
+while read -r line; do
+  if [[ "$line" =~ (\.|source)\s+.+ ]]; then
+    file="$(cut -d ' ' -f2 <<< "$line")"
+    cat "$file"    
+  else
+    echo "$line"
+  fi
+done < "$1"
