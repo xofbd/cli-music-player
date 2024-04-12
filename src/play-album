@@ -24,7 +24,8 @@ play_all_files() {
 main() {
   find_albums "$@" > /dev/null || (message_empty "albums" && exit 0)
   album_dirs="$(find_albums "$@")"
-  echo -e "Found $(wc -l <<< "$album_dirs") album(s):\n$album_dirs\n"
+  album_dirs_relative="$(sed 's|'$3/'||' <<< "$album_dirs")"
+  echo -e "Found $(wc -l <<< "$album_dirs") album(s):\n$album_dirs_relative\n"
 
   IFS=$'\n'
   for dir_ in $album_dirs; do
