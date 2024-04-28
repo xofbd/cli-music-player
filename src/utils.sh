@@ -1,5 +1,5 @@
 parse_pattern() {
-  echo $(sed 's/ /[\\s_-]/g' <<< "$1")
+  sed 's/ /[\\s_-]/g' <<< "$1"
 }
 
 find_songs() {
