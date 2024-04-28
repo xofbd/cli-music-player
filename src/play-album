@@ -34,4 +34,4 @@ main() {
 }
 
 
-main ${_arg_pattern[*]} "$_arg_directory"
+main "${_arg_pattern[@]}" "$_arg_directory"

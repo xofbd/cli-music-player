@@ -5,4 +5,4 @@ set -euo pipefail
 source src/utils.sh
 source src/arg-parse.sh
 
-find_albums ${_arg_pattern[*]} "$_arg_directory" || message_empty "albums"
+find_albums "${_arg_pattern[@]}" "$_arg_directory" || message_empty "albums"
