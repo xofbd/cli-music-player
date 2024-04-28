@@ -19,6 +19,10 @@ $(BUILD_DIR)/%: src/% $(libraries) | $(BUILD_DIR)
 install: $(outputs)
 	cp $(outputs) $(HOME)/bin
 
+.PHONY: tests
+tests: $(outputs)
+	tests/test-songs
+
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)

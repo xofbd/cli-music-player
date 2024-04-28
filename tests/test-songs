@@ -1,0 +1,30 @@
+#!/usr/bin/env bats
+
+@test "one search word" {
+  result=$(build/list-songs --directory tests/music/ "glove" | sort)
+  expected="$(< tests/expected/one_search_word)"
+
+  [[ "$result" == "$expected" ]]
+}
+
+@test "two search words" {
+  result=$(build/list-songs --directory tests/music/ "in glove" | sort)
+  expected="$(< tests/expected/two_search_words)"
+
+  [[ "$result" == "$expected" ]]
+}
+
+@test "three search words" {
+  result=$(build/list-songs --directory tests/music/ "hand in glove" | sort)
+  expected="$(< tests/expected/three_search_words)"
+
+  [[ "$result" == "$expected" ]]
+}
+
+@test "two search terms" {
+  result=$(build/list-songs --directory tests/music/ "hand in glove" "live" | sort)
+  expected="$(< tests/expected/two_search_terms)"
+
+  [[ "$result" == "$expected" ]]
+}
+

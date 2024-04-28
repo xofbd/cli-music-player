@@ -23,5 +23,8 @@ Use `-h` or `--help` for usage info.
 ## Install
 To create a standalone scripts, run `make all`. You can then move the created scripts to some place in your `$PATH`. You can run `make install` which will copy the generated scripts into `$HOME/bin`.
 
+## Testing
+Testing is done with [Bats](https://bats-core.readthedocs.io/en/stable/index.html) and can be run with `make tests`.
+
 ## License
 This project is distributed under the GPL license. Please see `COPYING` for more information.
