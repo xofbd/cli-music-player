@@ -28,3 +28,17 @@
   [[ "$result" == "$expected" ]]
 }
 
+@test "find song with hyphen" {
+  result=$(build/list-songs --directory tests/music/ "Annie Dog" | sort)
+  expected="tests/music/The Smashing Pumpkins/Adore/Annie-Dog.mp3"
+
+  [[ "$result" == "$expected" ]]
+}
+
+@test "no results" {
+  result=$(build/list-songs --directory tests/music/ "no results for this" | sort)
+  expected="No songs found with pattern"
+
+  [[ "$result" == "$expected" ]]
+}
+

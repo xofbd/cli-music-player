@@ -14,3 +14,10 @@
   [[ "$result" == "$expected" ]]
 }
 
+@test "no search results" {
+  result=$(build/list-albums --directory tests/music/ "no results for this" | sort)
+  expected="No albums found with pattern"
+
+  [[ "$result" == "$expected" ]]
+}
+
