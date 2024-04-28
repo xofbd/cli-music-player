@@ -1,0 +1,16 @@
+#!/usr/bin/env bats
+
+@test "one search term" {
+  result=$(build/list-albums --directory tests/music/ "smash" | sort)
+  expected="$(< tests/expected/one_search_term_albums)"
+
+  [[ "$result" == "$expected" ]]
+}
+
+@test "two search terms" {
+  result=$(build/list-albums --directory tests/music/ "smash" "the offspring" | sort)
+  expected="$(< tests/expected/two_search_terms_albums)"
+
+  [[ "$result" == "$expected" ]]
+}
+

@@ -22,6 +22,7 @@ install: $(outputs)
 .PHONY: tests
 tests: $(outputs)
 	tests/test-songs
+	tests/test-albums
 
 .PHONY: clean
 clean:
