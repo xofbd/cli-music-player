@@ -40,7 +40,7 @@ _arg_max_results="all"
 
 print_help()
 {
-  printf 'Usage: %s [-d|--directory <arg>] [-n|--max-results <arg>] [-h|--help] <pattern-1> [<pattern-2>]\n' "$0"
+  printf 'Usage: %s [-d|--directory <arg>] [-n|--max-results <arg>] [-h|--help] <pattern-1> [<pattern-2>]\n' "$(basename $0)"
   printf '\t%s\n' "<pattern>: search pattern; the 2nd search pattern is applied on the full path"
   printf '\t%s\n' "-d, --directory: root directory to search through (default: '"$HOME"/Music')"
   printf '\t%s\n' "-n, --max-results: maximum number of results returned (default: all)"
