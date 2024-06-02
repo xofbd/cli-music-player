@@ -21,3 +21,11 @@
   [[ "$result" == "$expected" ]]
 }
 
+@test "limit results" {
+  num_results_all=$(build/list-albums --directory tests/music/ "pumpkins" | wc -l)
+  num_results_one=$(build/list-albums --directory tests/music/ --max-results 1 "pumpkins" | wc -l)
+
+  [[ "$num_results_all" -gt 1 ]]
+  [[ "$num_results_one" -eq 1 ]]
+}
+

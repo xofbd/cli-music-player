@@ -42,3 +42,10 @@
   [[ "$result" == "$expected" ]]
 }
 
+@test "limit number of results" {
+  num_results_all=$(build/list-songs --directory tests/music/ "hand in glove" | wc -l)
+  num_results_one=$(build/list-songs --directory tests/music/ --max-results 1 "hand in glove" | wc -l)
+  echo "$num_results_one"
+  [[ "$num_results_all" -gt 1 ]]
+  [[ "$num_results_one" -eq 1 ]]
+}

@@ -3,8 +3,10 @@
 # This is a rather minimal example Argbash potential
 # Example taken from http://argbash.readthedocs.io/en/stable/example.html
 #
-# ARG_OPTIONAL_SINGLE([directory],[d],[root directory to search through], ["$HOME"/Music])
+# ARG_OPTIONAL_SINGLE([directory],[d],[root directory to search through],["$HOME"/Music])
 # ARG_POSITIONAL_MULTI([pattern],[search pattern],[2],[.])
+# ARG_OPTIONAL_SINGLE([max-results],[n],[maximum number of results returned],[all])
+# ARG_HELP()
 # ARGBASH_SET_INDENT([  ])
 # ARGBASH_GO()
 # needed because of Argbash --> m4_ignore([
@@ -23,7 +25,7 @@ die() {
 
 
 begins_with_short_option() {
-  local first_option all_short_options='dh'
+  local first_option all_short_options='dnh'
   first_option="${1:0:1}"
   test "$all_short_options" = "${all_short_options/$first_option/}" && return 1 || return 0
 }
@@ -33,13 +35,15 @@ _positionals=()
 _arg_pattern=('' ".")
 # THE DEFAULTS INITIALIZATION - OPTIONALS
 _arg_directory="$HOME"/Music
+_arg_max_results="all"
 
 
 print_help()
 {
-  printf 'Usage: %s [-d|--directory <arg>] [-h|--help] <pattern-1> [<pattern-2>]\n' "$0"
+  printf 'Usage: %s [-d|--directory <arg>] [-n|--max-results <arg>] [-h|--help] <pattern-1> [<pattern-2>]\n' "$0"
   printf '\t%s\n' "<pattern>: search pattern; the 2nd search pattern is applied on the full path"
-  printf '\t%s\n' "-d, --directory: root directory to search through \"$HOME\"/Music"
+  printf '\t%s\n' "-d, --directory: root directory to search through (default: '"$HOME"/Music')"
+  printf '\t%s\n' "-n, --max-results: maximum number of results returned (default: all)"
   printf '\t%s\n' "-h, --help: prints help"
 }
 
@@ -61,6 +65,17 @@ parse_commandline()
         ;;
       -d*)
         _arg_directory="${_key##-d}"
+        ;;
+      -n|--max-results)
+        test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+        _arg_max_results="$2"
+        shift
+        ;;
+      --max-results=*)
+        _arg_max_results="${_key##--max-results=}"
+        ;;
+      -n*)
+        _arg_max_results="${_key##-n}"
         ;;
       -h|--help)
         print_help

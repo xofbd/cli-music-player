@@ -5,4 +5,4 @@ set -euo pipefail
 source src/utils.sh
 source src/arg-parse.sh
 
-find_songs "${_arg_pattern[@]}" "$_arg_directory" | xargs --no-run-if-empty --open-tty -d "\n" mplayer || message_empty "songs"
+find_songs "${_arg_pattern[@]}" "$_arg_directory" "$_arg_max_results" | xargs --no-run-if-empty --open-tty -d "\n" mplayer || message_empty "songs"
