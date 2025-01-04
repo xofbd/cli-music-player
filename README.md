@@ -9,7 +9,10 @@ Make sure you have the following installed:
 * [fdfind](https://docs.rs/crate/fd-find/latest)
 * [mplayer](http://www.mplayerhq.hu/design7/news.html)
 
-Both of these are commonly available in most Linux distros' official repositories.
+Both of these are commonly available in most Linux distros' official repositories. Note: you can use `mpv` instead of `mplayer` but you'll need to create an executable named `mplayer` in your path with the following content:
+```bash
+mpv "$@"
+```
 
 ## Usage
 There are four scripts that pretty much do what you expect:
