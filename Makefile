@@ -12,7 +12,7 @@ $(BUILD_DIR):
 	mkdir -p $@
 
 $(BUILD_DIR)/%: src/% $(libraries) | $(BUILD_DIR)
-	bin/compile $^ > $@
+	bin/compile $< > $@
 	chmod u+x $@
 
 .PHONY: install
