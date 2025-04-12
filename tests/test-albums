@@ -29,3 +29,18 @@
   [[ "$num_results_two" -eq 2 ]]
 }
 
+@test "limit to first result found" {
+  num_results_all=$(build/list-albums --directory tests/music/ "pumpkins" | wc -l)
+  num_results_one=$(build/list-albums --directory tests/music/ --first "pumpkins" | wc -l)
+
+  [[ "$num_results_all" -gt 1 ]]
+  [[ "$num_results_one" -eq 1 ]]
+}
+
+@test "ignore max result option when first is set" {
+  num_results_all=$(build/list-albums --directory tests/music/ "pumpkins" | wc -l)
+  num_results_one=$(build/list-albums --directory tests/music/ --max-results 2 --first "pumpkins" | wc -l)
+
+  [[ "$num_results_all" -gt 1 ]]
+  [[ "$num_results_one" -eq 1 ]]
+}

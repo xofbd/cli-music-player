@@ -6,6 +6,7 @@
 # ARG_OPTIONAL_SINGLE([directory],[d],[root directory to search through],["$HOME"/Music])
 # ARG_POSITIONAL_MULTI([pattern],[search pattern],[2],[.])
 # ARG_OPTIONAL_SINGLE([max-results],[n],[maximum number of results returned],[all])
+# ARG_OPTIONAL_BOOLEAN([first],[1],[limit to the first result found],[off])
 # ARG_HELP()
 # ARGBASH_SET_INDENT([  ])
 # ARGBASH_GO()
@@ -25,7 +26,7 @@ die() {
 
 
 begins_with_short_option() {
-  local first_option all_short_options='dnh'
+  local first_option all_short_options='dn1h'
   first_option="${1:0:1}"
   test "$all_short_options" = "${all_short_options/$first_option/}" && return 1 || return 0
 }
@@ -36,14 +37,16 @@ _arg_pattern=('' ".")
 # THE DEFAULTS INITIALIZATION - OPTIONALS
 _arg_directory="$HOME"/Music
 _arg_max_results="all"
+_arg_first="off"
 
 
 print_help()
 {
-  printf 'Usage: %s [-d|--directory <arg>] [-n|--max-results <arg>] [-h|--help] <pattern-1> [<pattern-2>]\n' "$(basename $0)"
+  printf 'Usage: %s [-d|--directory <arg>] [-n|--max-results <arg>] [-1|--(no-)first] [-h|--help] <pattern-1> [<pattern-2>]\n' "$(basename $0)"
   printf '\t%s\n' "<pattern>: search pattern; the 2nd search pattern is applied on the full path"
   printf '\t%s\n' "-d, --directory: root directory to search through (default: '"$HOME"/Music')"
   printf '\t%s\n' "-n, --max-results: maximum number of results returned (default: all)"
+  printf '\t%s\n' "-1, --first, --no-first: limit to the first result found, ignores --max-results if set"
   printf '\t%s\n' "-h, --help: prints help"
 }
 
@@ -76,6 +79,18 @@ parse_commandline()
         ;;
       -n*)
         _arg_max_results="${_key##-n}"
+        ;;
+      -1|--no-first|--first)
+        _arg_first="on"
+        test "${1:0:5}" = "--no-" && _arg_first="off"
+        ;;
+      -1*)
+        _arg_first="on"
+        _next="${_key##-1}"
+        if test -n "$_next" -a "$_next" != "$_key"
+        then
+          { begins_with_short_option "$_next" && shift && set -- "-1" "-${_next}" "$@"; } || die "The short option '$_key' can't be decomposed to ${_key:0:2} and -${_key:2}, because ${_key:0:2} doesn't accept value and '-${_key:2:1}' doesn't correspond to a short option."
+        fi
         ;;
       -h|--help)
         print_help
@@ -121,3 +136,8 @@ assign_positional_args()
 parse_commandline "$@"
 handle_passed_args_count
 assign_positional_args 1 "${_positionals[@]}"
+
+# Reconcile --max-results and --first
+if [[ "$_arg_first" == "on" ]]; then
+  _arg_max_results=1
+fi
