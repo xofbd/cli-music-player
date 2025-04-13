@@ -65,3 +65,15 @@
   [[ "$num_results_all" -gt 1 ]]
   [[ "$num_results_one" -eq 1 ]]
 }
+
+@test "limit results after applying second search term" {
+  num_results_all=$(build/list-songs --directory tests/music/ "william" | wc -l)
+  num_results_two=$(build/list-songs --directory tests/music/ "william" "smiths" | wc -l)
+  results_smiths=$(build/list-songs --directory tests/music/ --max-results 1 "william" "smiths")
+  results_classical=$(build/list-songs --directory tests/music/ --max-results 1 "william" "classical")
+
+  [[ "$num_results_all" -eq 3 ]]
+  [[ "$num_results_two" -eq 2 ]]
+  [[ "$results_smiths" != "No songs found with pattern" ]]
+  [[ "$results_classical" != "No songs found with pattern" ]]
+}

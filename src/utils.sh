@@ -9,13 +9,14 @@ _find() {
   local directory="$4"
 
   if [[ "$5" == all ]]; then
-    local limit=""
+    local limit="10000000"
   else
-    local limit="--max-results "$5""
+    local limit="$5"
   fi
 
-  fdfind --type "$type" --ignore-case $limit --regex "$pattern_target" "$directory" \
-    | grep -P --ignore-case "$pattern_other"
+  fdfind --type "$type" --ignore-case --regex "$pattern_target" "$directory" \
+    | grep -P --ignore-case "$pattern_other" \
+    | head --lines="$limit"
 }
 
 find_albums() {
