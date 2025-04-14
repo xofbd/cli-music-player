@@ -1,5 +1,18 @@
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script: make install
+  artifacts:
+    paths:
+      - build/
+
 test:
   stage: test
-  script:
+  before_script:
     - apt-get update && apt-get install -y bats fd-find
+  script:
     - make tests
+  needs: ["build"]
