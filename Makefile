@@ -15,6 +15,8 @@ $(BUILD_DIR)/%: src/% $(libraries) | $(BUILD_DIR)
 	bin/compile $< > $@
 	chmod u+x $@
 
+build-all: $(outputs)
+
 .PHONY: install
 install: $(outputs)
 	cp $(outputs) $(HOME)/bin
