@@ -4,7 +4,7 @@ stages:
 
 build:
   stage: build
-  script: make install
+  script: make build-all
   artifacts:
     paths:
       - build/
