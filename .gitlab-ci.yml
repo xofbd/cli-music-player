@@ -1,5 +1,22 @@
+variables:
+  GIT_STRATEGY: fetch
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script: make build-all
+  artifacts:
+    paths:
+      - build/
+
 test:
   stage: test
-  script:
+  before_script:
+    - touch build/*
     - apt-get update && apt-get install -y bats fd-find
+  script:
     - make tests
+  needs: ["build"]
